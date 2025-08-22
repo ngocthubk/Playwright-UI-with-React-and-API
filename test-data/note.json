@@ -1,0 +1,20 @@
+[
+    {
+        "title": "Playwright with UI Test",
+        "description": "Experiment Playwright with UI Test",
+        "category": "Work",
+        "completed": false
+    },
+    {
+        "title": "Go to the suppermarket",
+        "description": "Buy Chayote",
+        "category": "Home",
+        "completed": true
+    },
+    {
+        "title": "Playwright with React",
+        "description": "Experiment Playwright with React web applications",
+        "category": "Personal",
+        "completed": false
+    }
+]
