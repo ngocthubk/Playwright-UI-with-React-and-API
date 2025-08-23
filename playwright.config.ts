@@ -6,7 +6,9 @@ require('dotenv').config({ path: path.resolve(__dirname,'./config', '.env') });
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
+
   testDir: './tests',
+  expect: { timeout: 10_000 },
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -34,11 +36,11 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
 
-    //  {
-    //   name: 'firefox',
-    //   testMatch: '**/ui/*.spec.ts', 
-    //   use: { ...devices['Desktop Firefox'] },
-    // },
+     {
+      name: 'firefox',
+      testMatch: '**/ui/*.spec.ts', 
+      use: { ...devices['Desktop Firefox'] },
+    },
 
     // {
     //   name: 'UI webkit',

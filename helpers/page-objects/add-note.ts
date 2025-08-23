@@ -11,7 +11,7 @@ export class AddNote{
     private readonly ctrCnc
     
 
-     /** Constructor of class Note
+     /** Constructor of class AddNote
     @param page the fixture Page
     */
     constructor(public readonly page: Page) {
@@ -25,6 +25,13 @@ export class AddNote{
 
      }
 
+     /** Add a note
+     * @param title The title of the note
+     * @param dsc The description of the note
+     * @param category The category of the note, the possible values can be Work, Home, Personal
+     * @param complete True or false
+     * 
+      */
     async addNote(title: string, dsc: string, category: string, complete: boolean){
         let note = await new Note(this.page)
         await note.openAddNote()
@@ -32,6 +39,13 @@ export class AddNote{
         await this.ctrCrt.click()
     }
 
+     /** Input in the form Add new note
+     * @param title The title of the note
+     * @param dsc The description of the note
+     * @param category The category of the note, the possible values can be Work, Home, Personal
+     * @param complete True or false
+     * 
+      */
     async inputNote(title: string, dsc: string, category: string, complete: boolean){
         await this.ctrCtg.selectOption(category)
         if (complete)
@@ -41,10 +55,12 @@ export class AddNote{
 
     }
 
+    /* Click on the button Create */
     async clickCreate(){
         await this.ctrCrt.click()
     }
 
+    /* Click on the button Cancel */
     async clickCancel(){
         await this.ctrCrt.cancel()
     }
