@@ -9,9 +9,9 @@ test.describe('Create a note',()=> {
        let noteTitle
     testData.forEach(({title,description,category,completed}) => {
         test(`Create a note ${title}`, async ({loginPage,page}) => {
-            note = new Note(page);
+            note = await new Note(page);
             noteTitle = title
-            let addNote = new AddNote(page)
+            let addNote = await new AddNote(page)
             await test.step('Open the popup Add a Note',async () => {
                 await note.openAddNote()
 
@@ -35,9 +35,10 @@ test.describe('Create a note',()=> {
         })
     })
     // Teardown
-    test.afterEach('Delete a note',async () => {
+    test.afterEach('Delete a note',async ({page}) => {
         test.slow();
         await note.deleteNote(noteTitle);
+        await page.close()
     })
 })
 

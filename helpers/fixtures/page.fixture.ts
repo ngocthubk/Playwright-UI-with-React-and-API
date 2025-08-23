@@ -26,6 +26,7 @@ export const test = base.extend<PagesFixtures>({
         await addNote.addNote(testData[0]!.title,testData[0]!.description,testData[0]!.category,testData[0]!.completed)        
         await use(note);
         await note.deleteNote(testData[0]!.title)
+        await page.close()
     },
    
 });
