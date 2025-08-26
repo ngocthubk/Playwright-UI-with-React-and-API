@@ -1,13 +1,13 @@
 [
     {
-        "title": "Playwright with UI Test",
+        "title": "Isolate test data between workers",
         "description": "Experiment Playwright with UI Test",
         "category": "Work",
         "completed": false
     },
     {
         "title": "Go to the suppermarket",
-        "description": "Buy Chayote",
+        "description": "",
         "category": "Home",
         "completed": true
     },

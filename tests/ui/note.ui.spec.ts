@@ -14,14 +14,14 @@ test.describe('Create a note',()=> {
         test(`Create a note ${title}`, async ({loginPage,page,request}) => {
                       
             note = await new Note(page);
-            noteTitle = title
+            noteTitle = title + + (test.info().workerIndex).toString()
             let addNote = await new AddNote(page)
             await test.step('Open the popup Add a Note',async () => {
                 await note.openAddNote()
             })
 
             await test.step('Input in the form',async () => {
-                await addNote.inputNote(title,description,category,completed);
+                await addNote.inputNote(noteTitle,description,category,completed);
 
             })
 
@@ -31,8 +31,8 @@ test.describe('Create a note',()=> {
             })
 
             await test.step('Verify if the note exists',async () => {
-                test.slow();
-                await note.verifyNoteExist(title,description,category,completed)
+                
+                await note.verifyNoteExist(noteTitle,description,category,completed)
             })
         
         })
@@ -40,9 +40,9 @@ test.describe('Create a note',()=> {
 
     // Teardown
     test.afterEach('Teardown - Delete a note',async ({page}) => {
-        test.slow();
+        
         await note.deleteNote(noteTitle,true);
-        await page.close()
+        // await page.close()
     })
 })
 

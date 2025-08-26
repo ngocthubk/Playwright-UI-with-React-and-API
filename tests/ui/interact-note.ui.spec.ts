@@ -1,6 +1,7 @@
 import { verify } from 'crypto'
-import {test,expect,testData} from '../../helpers/fixtures/page.fixture'
+import {test,expect} from '../../helpers/fixtures/page.fixture'
 import {Note} from '../../helpers/page-objects/note'
+import interactNoteData from '../../test-data/interact-note.json'
 
 
 test.describe('Interact with a note',()=> {
@@ -8,26 +9,20 @@ test.describe('Interact with a note',()=> {
 
     })
        
-    test(`Complete a note `, async ({note,page}) => {
-   
+    test(`Complete a note `, async ({interactNote,page}) => {
+        let title = interactNoteData[0]!.title + (test.info().workerIndex).toString()
         await test.step('Complete a note',async () => {
             
-            await note.completeNote(testData[0]!.title);
+            await interactNote.completeNote(title);
         })
 
         await test.step('Verify if the note exists',async () => {
-            test.slow();
-            await note.verifyNoteComplete(testData[0]!.title,true)
+            
+            await interactNote.verifyNoteComplete(title,true)
         })
         
     })
-    test.afterEach(`Teardown - Delete a note `, async ({page}) => {
-        let note = await new Note(page)
-        await note.deleteNote(testData[0]!.title,true)
-        await page.close()
-    })
-    
-    
+          
 })
     
 

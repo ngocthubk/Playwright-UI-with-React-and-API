@@ -54,7 +54,7 @@ export default defineConfig({
     },
 
      {
-      name: 'firefox',
+      name: 'UI firefox',
       testMatch: '**/ui/*.spec.ts', 
       use: { ...devices['Desktop Firefox'] },
     },
