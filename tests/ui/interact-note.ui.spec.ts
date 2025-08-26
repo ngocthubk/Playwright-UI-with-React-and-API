@@ -1,13 +1,11 @@
 import { verify } from 'crypto'
-import {test,expect} from '../../helpers/fixtures/page.fixture'
+import {test,expect,testData} from '../../helpers/fixtures/page.fixture'
 import {Note} from '../../helpers/page-objects/note'
-import testData from '../../test-data/note.json'
 
-test.describe('Create a note',()=> {
-    let note
-    let noteTitle
-    test.beforeEach('Add a note',async ({loginPage}) => {
-        
+
+test.describe('Interact with a note',()=> {
+    test.beforeEach('Login',async ({loginPage,request}) => {
+
     })
        
     test(`Complete a note `, async ({note,page}) => {
@@ -23,6 +21,13 @@ test.describe('Create a note',()=> {
         })
         
     })
+    test.afterEach(`Teardown - Delete a note `, async ({page}) => {
+        let note = await new Note(page)
+        await note.deleteNote(testData[0]!.title,true)
+        await page.close()
+    })
+    
+    
 })
     
 

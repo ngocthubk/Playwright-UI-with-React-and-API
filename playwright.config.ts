@@ -1,10 +1,26 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices,PlaywrightTestConfig } from '@playwright/test';
 import path from 'path';
 require('dotenv').config({ path: path.resolve(__dirname,'./config', '.env') });
 
-/**
- * See https://playwright.dev/docs/test-configuration.
- */
+// Config to hold extra properties
+interface TestConfig extends PlaywrightTestConfig {
+  baseUrl: string;
+  testData: string;
+}
+
+// set config for dev
+const devConfig: TestConfig = {
+  baseUrl: 'https://practice.expandtesting.com/notes/',
+  testData: 'https://dev.api.example.com'
+};
+
+// set config for stage
+const stageConfig: TestConfig = {
+  // baseUrl in stage environment can be different from the dev environment. In this experimental project, this is not the focus
+  baseUrl: 'https://practice.expandtesting.com/notes/',  
+  testData: 'https://stage.api.example.com'
+};
+
 export default defineConfig({
 
   testDir: './tests',
@@ -42,11 +58,11 @@ export default defineConfig({
       use: { ...devices['Desktop Firefox'] },
     },
 
-    // {
-    //   name: 'UI webkit',
-    //   testMatch: '**/ui/*.spec.ts', 
-    //   use: { ...devices['Desktop Safari'] },
-    // }, 
+    {
+      name: 'UI webkit',
+      testMatch: '**/ui/*.spec.ts', 
+      use: { ...devices['Desktop Safari'] },
+    }, 
     {
       name: 'API Test',
       testMatch: '**/api/*.spec.ts',

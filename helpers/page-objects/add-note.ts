@@ -25,20 +25,6 @@ export class AddNote{
 
      }
 
-     /** Add a note
-     * @param title The title of the note
-     * @param dsc The description of the note
-     * @param category The category of the note, the possible values can be Work, Home, Personal
-     * @param complete True or false
-     * 
-      */
-    async addNote(title: string, dsc: string, category: string, complete: boolean){
-        let note = await new Note(this.page)
-        await note.openAddNote()
-        await this.inputNote(title, dsc, category, complete)
-        await this.ctrCrt.click()
-    }
-
      /** Input in the form Add new note
      * @param title The title of the note
      * @param dsc The description of the note
