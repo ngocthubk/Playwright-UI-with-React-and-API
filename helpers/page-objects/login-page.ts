@@ -24,6 +24,8 @@ export class LoginPage{
     async login(email: string, password: string){
         await this.ctrEmailAdd.fill(email);
         await this.ctrPw.fill(password);
+        if (this.ctrPw.textContent() == "")
+            await this.ctrPw.fill(password);
         await this.ctrLogin.click();
         // Dismiss the consent alert
         this.page.on('dialog', async dialog => {

@@ -23,7 +23,7 @@ test.describe('Delete a note successfully',()=> {
         
     })
     test.afterEach(`Close the page `, async ({page}) => {
-        // await page.close()
+        await page.close()
     })
 })
 
@@ -48,7 +48,7 @@ test.describe('Delete a note unsuccessfully',()=> {
     test.afterEach(`Teardown - Delete a note`, async ({page}) => {
         let note = await new Note(page)
         await note.deleteNote(title,true)
-        // await page.close()
+        await page.close()
     })
 })
     

@@ -52,7 +52,7 @@ export class Note{
       */
     async completeNote(title: string){
 
-        await this.page.locator(this.ctrNoteCheckLct.replace('#noteTitle#',title)).check()
+        await this.page.locator(this.ctrNoteCheckLct.replace('#noteTitle#',title)).click()
     }
 
     /** Delete a note
