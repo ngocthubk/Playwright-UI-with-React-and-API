@@ -23,7 +23,7 @@ const stageConfig: TestConfig = {
 
 export default defineConfig({
 
-  testDir: './tests',
+  testDir: './tests/',
   expect: { timeout: 10_000 },
   /* Run tests in files in parallel */
   fullyParallel: true,
