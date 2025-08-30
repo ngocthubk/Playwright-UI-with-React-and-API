@@ -1,19 +1,19 @@
 [
     {
-        "title": "Playwright with UI Test",
+        "title": "Isolate test data between workers",
         "description": "Experiment Playwright with UI Test",
         "category": "Work",
         "completed": false
     },
     {
         "title": "Go to the suppermarket",
-        "description": "Buy Chayote",
+        "description": "Buy chayote",
         "category": "Home",
         "completed": true
     },
     {
         "title": "Playwright with React",
-        "description": "Experiment Playwright with React web applications",
+        "description": "Experiment Playwright with React web applications. Combine UI and API tests",
         "category": "Personal",
         "completed": false
     }

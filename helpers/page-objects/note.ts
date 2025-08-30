@@ -1,4 +1,5 @@
 import { Page,expect,test } from '@playwright/test';
+import {AddNote} from './add-note'
 
 export class Note{
 
@@ -7,6 +8,7 @@ export class Note{
     private readonly ctrNote: string
     private readonly ctrNoteDlt: string
     private readonly ctrCnfDelete
+    private readonly ctrCncDelete
     
 
      /** Constructor of class Note
@@ -19,43 +21,93 @@ export class Note{
         this.ctrNoteDlt = `_react=rt[message="#noteTitle#"]`
         this.ctrAddNote = this.page.getByRole('button',{name: '+ Add Note'}); 
         this.ctrCnfDelete = this.page.getByTestId('note-delete-confirm');
+        this.ctrCncDelete = this.page.getByTestId('note-delete-cancel-2');
+        
      }
 
+    /** Open the form Add new note
+     * @param title The title of the note
+    */
     async openAddNote(){
 
         await this.ctrAddNote.click();
     }
 
+    /** Add a note
+     * @param title The title of the note
+     * @param dsc The description of the note
+     * @param category The category of the note, the possible values can be Work, Home, Personal
+     * @param complete True or false
+     * 
+      */
+    async addNote(title: string, dsc: string, category: string, complete: boolean){
+        let addNote = await new AddNote(this.page)
+        await this.openAddNote()
+        await addNote.inputNote(title, dsc, category, complete)
+        await addNote.clickCreate()
+        await this.page.locator(this.ctrNote.replace('#noteTitle#',title).replace('#noteDsc#',dsc).replace('#noteCtg#',category))
+    }
+    /** Complete a note
+     * @param title The title of the note
+      */
     async completeNote(title: string){
 
-        await this.page.locator(this.ctrNoteCheckLct.replace('#noteTitle#',title)).click();
+        await this.page.locator(this.ctrNoteCheckLct.replace('#noteTitle#',title)).click()
     }
 
-    async deleteNote(title: string){
+    /** Delete a note
+     * @param title The title of the note
+      */
+    async deleteNote(title: string, confirm: boolean){
+            await this.page.locator(this.ctrNoteDlt.replace('#noteTitle#',title)).click();
+            if (confirm){
+                await test.step('Confirm the deletion',async () => {
 
-        await this.page.locator(this.ctrNoteDlt.replace('#noteTitle#',title)).click();
+                    await this.ctrCnfDelete.click();
+                    console.log('deleted')
+                    await this.ctrCnfDelete.waitFor({ state: "detached" })
+                })
+            }else{
+                await test.step('Cancel the deletion',async () => {
 
-        await test.step('Confirm the deletion',async () => {
+                    await this.ctrCncDelete.click();
+                })
+            }
+        
 
-            await this.ctrCnfDelete.click();
-        })
     }
 
+    /** Verify if a note exists
+     * @param title The title of the note
+     * @param dsc The description of the note
+     * @param category The category of the note, the possible values can be Work, Home, Personal
+     * @param complete True or false
+     * 
+      */
     async verifyNoteExist(title: string, dsc: string,category: string,complete: boolean){
         
-        await expect(await this.page.locator(this.ctrNote.replace('#noteTitle#',title).replace('#noteDsc#',dsc).replace('#noteCtg#',category)+`[note.completed=${complete}]`)).toBeVisible();
+        await expect.soft(await this.page.locator(this.ctrNote.replace('#noteTitle#',title).replace('#noteDsc#',dsc).replace('#noteCtg#',category)+`[note.completed=${complete}]`)).toBeVisible();
         
     }
 
+    /** Verify if a note completes
+     * @param title The title of the note
+     * @param complete True or false
+     * 
+      */
     async verifyNoteComplete(title: string, complete: boolean){
        
-        await expect(await this.page.locator(this.ctrNoteCheckLct.replace('#noteTitle#',title)+`[note.completed=${complete}]`)).toBeVisible()
+        await expect.soft(await this.page.locator(this.ctrNoteCheckLct.replace('#noteTitle#',title)+`[note.completed=${complete}]`)).toBeVisible()
        
     }
-
-    async verifyNoteNotExist(title: string, dsc: string,category: string,complete: boolean){
+    /** Verify if a note does not exist
+     * @param title The title of the note
+     * @param complete True or false
+     * 
+      */
+    async verifyNoteNotExist(title: string){
         
-        await expect(await this.page.locator(this.ctrNote.replace('#noteTitle#',title).replace('#noteDsc#',dsc).replace('#noteCtg#',category))).not.toBeVisible();
+        await expect.soft(await this.page.locator(this.ctrNote.replace('#noteTitle#',title))).not.toBeVisible();
         
     }
 }

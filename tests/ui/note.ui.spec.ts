@@ -1,24 +1,27 @@
 import { verify } from 'crypto'
 import {test,expect} from '../../helpers/fixtures/page.fixture'
 import {Note} from '../../helpers/page-objects/note'
-import testData from '../../test-data/note.json'
 import { AddNote } from '../../helpers/page-objects/add-note'
+import {fetchTestData,TestData} from '../../helpers/data-factory/note'
+import _fetch from 'sync-fetch'
 
 test.describe('Create a note',()=> {
        let note
        let noteTitle
-    testData.forEach(({title,description,category,completed}) => {
-        test(`Create a note ${title}`, async ({loginPage,page}) => {
-            note = new Note(page);
-            noteTitle = title
-            let addNote = new AddNote(page)
+       let testData = fetchTestData()          
+       
+    testData?.forEach(({title,description,category,completed}) => {
+        test(`Create a note ${title}`, async ({loginPage,page,request}) => {
+                      
+            note = await new Note(page);
+            noteTitle = title + + (test.info().workerIndex).toString()
+            let addNote = await new AddNote(page)
             await test.step('Open the popup Add a Note',async () => {
                 await note.openAddNote()
-
             })
 
             await test.step('Input in the form',async () => {
-                await addNote.inputNote(title,description,category,completed);
+                await addNote.inputNote(noteTitle,description,category,completed);
 
             })
 
@@ -28,16 +31,18 @@ test.describe('Create a note',()=> {
             })
 
             await test.step('Verify if the note exists',async () => {
-                test.slow();
-                await note.verifyNoteExist(title,description,category,completed)
+                
+                await note.verifyNoteExist(noteTitle,description,category,completed)
             })
         
         })
     })
+
     // Teardown
-    test.afterEach('Delete a note',async () => {
-        test.slow();
-        await note.deleteNote(noteTitle);
+    test.afterEach('Teardown - Delete a note',async ({page}) => {
+        
+        await note.deleteNote(noteTitle,true);
+        await page.close()
     })
 })
 
