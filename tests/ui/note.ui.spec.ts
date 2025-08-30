@@ -1,9 +1,7 @@
-import { verify } from 'crypto'
 import {test,expect} from '../../helpers/fixtures/page.fixture'
 import {Note} from '../../helpers/page-objects/note'
 import { AddNote } from '../../helpers/page-objects/add-note'
 import {fetchTestData,TestData} from '../../helpers/data-factory/note'
-import _fetch from 'sync-fetch'
 
 test.describe('Create a note',()=> {
        let note
@@ -25,7 +23,7 @@ test.describe('Create a note',()=> {
 
             })
 
-             await test.step('Click on the button Create',async () => {
+            await test.step('Click on the button Create',async () => {
                 await addNote.clickCreate()
 
             })

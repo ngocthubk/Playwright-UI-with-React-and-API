@@ -1,11 +1,11 @@
 import { test, expect,Page, APIRequestContext  } from '@playwright/test';
-import axios from 'axios';
+
 import testData from '../../test-data/note.json'
 import { mock } from 'node:test';
 
 import _fetch from 'sync-fetch'
 
-export interface TestData {
+export type TestData = {
         title: string,
         description: string,
         category: string,

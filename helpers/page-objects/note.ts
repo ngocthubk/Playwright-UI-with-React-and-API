@@ -1,5 +1,6 @@
 import { Page,expect,test } from '@playwright/test';
 import {AddNote} from './add-note'
+import {fetchTestData,TestData} from '../../helpers/data-factory/note'
 
 export class Note{
 
@@ -9,7 +10,10 @@ export class Note{
     private readonly ctrNoteDlt: string
     private readonly ctrCnfDelete
     private readonly ctrCncDelete
-    
+    private readonly ctrCtgAll
+    private readonly ctrCtgWork
+    private readonly ctrCtgHome
+    private readonly ctrCtgPersonal
 
      /** Constructor of class Note
     @param page the fixture Page
@@ -22,7 +26,10 @@ export class Note{
         this.ctrAddNote = this.page.getByRole('button',{name: '+ Add Note'}); 
         this.ctrCnfDelete = this.page.getByTestId('note-delete-confirm');
         this.ctrCncDelete = this.page.getByTestId('note-delete-cancel-2');
-        
+        this.ctrCtgAll = this.page.locator('//*[@data-testid="category-all"]')
+        this.ctrCtgWork = this.page.getByTestId('category-all')
+        this.ctrCtgHome = this.page.getByTestId('category-home')
+        this.ctrCtgPersonal = this.page.getByTestId('category-personal')
      }
 
     /** Open the form Add new note
@@ -109,5 +116,74 @@ export class Note{
         
         await expect.soft(await this.page.locator(this.ctrNote.replace('#noteTitle#',title))).not.toBeVisible();
         
+    }
+
+    async addButton(){
+        let parent = await this.page.locator('//*[@class="d-flex"]').filter({has: this.ctrCtgAll})
+        
+        await this.ctrCtgAll.click();
+        console.log("Found Alls:", await parent.count());
+        // console.log("Found parents:", await parent.count());
+        await parent.evaluateHandle((element) => {let button = document.createElement('button');
+            button.textContent='Completed';
+            button.setAttribute('class','btn btnx-primary text-black fw-bold rounded w-25 me-3');
+            button.setAttribute('style','border-color: rgb(222, 226, 230); background-color: rgb(105, 188, 255);');
+            element.appendChild(button);
+            button.onclick = () => fetch('api/completed') 
+        });
+    }
+
+    async openAllNotes()
+    {
+
+        await this.ctrCtgAll.click()
+    }
+
+    async openWorkNotes()
+    {
+
+        await this.ctrCtgWork.click()
+    }
+
+    async openHomeNotes()
+    {
+
+        await this.ctrCtgHome.click()
+    }
+
+    async openPersonalNotes()
+    {
+
+        await this.ctrCtgPersonal.click()
+    }
+
+    async interceptRequest(){
+        let jsonCompleted: TestData[] = new Array(0)
+        let body 
+        await this.page.route('*/**/**/notes',async route => {
+      
+        const response = await route.fetch();
+        const json = await response.json();
+      
+        for (let item of json.data){
+        if (item.completed  == false) 
+          jsonCompleted.push(item)
+        }    
+
+        body = {"success": true,
+               "status": 200,
+               "message": "Notes successfully retrieved",
+               "data":  jsonCompleted}
+      // body.data = jsonCompleted
+        console.log(JSON.stringify(body))
+ 
+        await route.fulfill({status: 200,
+        headers: { 'Content-Type': 'application/json',
+
+        },
+        
+        response: response,
+        body: JSON.stringify(body)})            
+    })
     }
 }
