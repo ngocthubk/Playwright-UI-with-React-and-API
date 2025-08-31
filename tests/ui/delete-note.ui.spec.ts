@@ -1,7 +1,7 @@
 import { verify } from 'crypto'
 import {test,expect} from '../../helpers/fixtures/page.fixture'
 import {Note} from '../../helpers/page-objects/note'
-import deleteNoteData from '../../test-data/delete-note.json'
+import notes from '../../test-data/note.json'
 
 
 test.describe('Delete a note successfully',()=> { 
@@ -9,16 +9,16 @@ test.describe('Delete a note successfully',()=> {
 
     })
         
-    test(`Delete a note with the confirmation`, async ({deleteNote,page}) => {
-        let title = deleteNoteData[0]!.title + (test.info().workerIndex).toString()
+    test(`Delete a note with the confirmation`, async ({note,page}) => {
+        let title = notes[1]!.title + (test.info().workerIndex).toString()
         await test.step('Click on the button Delete',async () => {
             
-            await deleteNote.deleteNote(title,true);
+            await note.deleteNote(title,true);
         })
 
         await test.step('Verify if the note exists',async () => {
 
-            await deleteNote.verifyNoteNotExist(title)
+            await note.verifyNoteNotExist(title)
         })
         
     })
@@ -32,16 +32,29 @@ test.describe('Delete a note unsuccessfully',()=> {
     test.beforeEach('Login',async ({loginPage,request}) => {
 
     })
-    test(`Cancel deleting a note `, async ({deleteNote,page}) => {
-        title = deleteNoteData[0]!.title + (test.info().workerIndex).toString()
+    test(`Cancel deleting a note `, async ({note,page}) => {
+        title = notes[1]!.title + (test.info().workerIndex).toString()
         await test.step('Click on the button Delete',async () => {
             
-            await deleteNote.deleteNote(title,false);
+            await note.deleteNote(title,false);
         })
 
         await test.step('Verify if the note exists',async () => {
 
-            await deleteNote.verifyNoteExist(title,deleteNoteData[0]!.description,deleteNoteData[0]!.category,deleteNoteData[0]!.completed)
+            await note.verifyNoteExist(title,notes[1]!.description,notes[1]!.category,notes[1]!.completed)
+        })
+        
+    })
+    test('Complete a note ', async ({note}) => {
+        title = notes[1]!.title + (test.info().workerIndex).toString()
+        await test.step('Complete a note',async () => {
+            
+            await note.completeNote(title);
+        })
+
+        await test.step('Verify if the note exists',async () => {
+            
+            await note.verifyNoteComplete(title,true)
         })
         
     })

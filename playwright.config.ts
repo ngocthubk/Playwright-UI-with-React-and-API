@@ -49,7 +49,7 @@ export default defineConfig({
   projects: [
     {
       name: 'UI chrome',
-      testMatch: '**/ui/*.spec.ts', 
+      testMatch: '**/*.spec.ts', 
       use: { ...devices['Desktop Chrome'] },
     },
 

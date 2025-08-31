@@ -3,8 +3,6 @@ import { LoginPage } from '../page-objects/login-page';
 import {Note} from '../../helpers/page-objects/note'
 import {fetchTestData,TestData} from '../../helpers/data-factory/note'
 import { AddNote } from '../page-objects/add-note';
-import deleteNoteData from '../../test-data/delete-note.json'
-import interactNoteData from '../../test-data/interact-note.json'
 import notes from '../../test-data/note.json'
 import { getNotes,FullNote } from '../api/note';
 
@@ -13,7 +11,7 @@ import { getNotes,FullNote } from '../api/note';
 
 type PagesFixtures = {
     loginPage: LoginPage;
-    deleteNote: Note;
+    note: Note;
     interactNote: Note;
     multiNote: Note
 
@@ -27,37 +25,23 @@ export const test = base.extend<PagesFixtures>({
         // To wait for logging in successfully          
         await use(loginPage);
     },
-    deleteNote: async ({page,request},use) => {
+    note: async ({page,request},use) => {
         const note = await new Note(page);
 
-        let title = deleteNoteData[0]!.title + (test.info().workerIndex).toString()
-        await note.addNote(title,deleteNoteData[0]!.description,deleteNoteData[0]!.category,deleteNoteData[0]!.completed)        
+        let title = notes[1]!.title + (test.info().workerIndex).toString()
+        await note.addNote(title,notes[1]!.description,notes[1]!.category,notes[1]!.completed)        
         await use(note);
 
-        
-    },
-    interactNote: async ({page,request},use) => {
-        const note = await new Note(page);
-        let title = interactNoteData[0]!.title + (test.info().workerIndex).toString()
-        await note.addNote(title,interactNoteData[0]!.description,interactNoteData[0]!.category,interactNoteData[0]!.completed)        
-        await use(note);
-        await note.deleteNote(title,true)
-        await page.close()
         
     },
     multiNote: async ({page,request},use) => {
+        test.setTimeout(100_000)
         const note = await new Note(page);
         for (let item of notes){
             let title = item!.title + (test.info().workerIndex).toString()
             await note.addNote(title,item!.description,item!.category,item.completed)        
         }
-        await use(note);
-        let items: FullNote[] = await getNotes(request)
-        console.log(items)
-        items?.forEach(async ( {id})=>{
-            
-            await note.deleteNote(id,true)        
-        })
+        await use(note);        
         
     },
    
