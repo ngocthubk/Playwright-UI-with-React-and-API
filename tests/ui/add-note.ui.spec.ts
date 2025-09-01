@@ -12,7 +12,7 @@ test.describe('Create a note',()=> {
         test(`Create a note ${title}`, async ({loginPage,page,request}) => {
                       
             note = await new Note(page);
-            noteTitle = title + + (test.info().workerIndex).toString()
+            noteTitle = title +  (test.info().workerIndex).toString()
             let addNote = await new AddNote(page)
             await test.step('Open the popup Add a Note',async () => {
                 await note.openAddNote()

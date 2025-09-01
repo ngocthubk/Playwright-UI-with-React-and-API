@@ -21,17 +21,48 @@ export async function getNotes(request: APIRequestContext):Promise<FullNote[]>{
     return json.data
 
 }
-export async function deleteNote(request: APIRequestContext, id:string){
-
+export async function deleteNote(request: APIRequestContext, id:string):Promise<any>{
     
-    let response = await request.delete('api/notes',{headers: {
+    let response = await request.delete(`api/notes/${id}`,{headers: {
         accept: 'application/json',
         'x-auth-token': token!
-    },
-    params:{'title':id,
-
     }
 })
-    let json = await response.json()
-    return json.data
+    // let json = await response.json()
+    return response
+}
+
+export async function createNote(request: APIRequestContext, title:string,description: string, category: string):Promise<any>{    
+    let response = await request.post('api/notes',{headers: {
+        'Accept': 'application/json',
+        'x-auth-token': token!
+    },
+    form:{'title':`${title}`,
+            'description': `${description}`,
+            'category': `${category}`
+    }
+    })  
+  
+    console.log(response.statusText())
+    console.log(await response.text())  
+    if (response.ok()){
+        
+        let json = await response.json()
+        return json.data
+    }else
+        return response
+}
+
+export async function getNote(request: APIRequestContext, id:string):Promise<any>{    
+    let response = await request.get(`api/notes/${id}`,{headers: {
+        accept: 'application/json',
+        'x-auth-token': token!
+    }
+    })    
+    if (response.ok()){
+        
+        let json = await response.json()
+        return json.data
+    }else
+        return response
 }
