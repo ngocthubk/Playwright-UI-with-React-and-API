@@ -23,7 +23,7 @@ const stageConfig: TestConfig = {
 
 export default defineConfig({
 
-  testDir: './tests',
+  testDir: './tests/',
   expect: { timeout: 10_000 },
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -49,7 +49,7 @@ export default defineConfig({
   projects: [
     {
       name: 'UI chrome',
-      testMatch: '**/ui/*.spec.ts', 
+      testMatch: '**/*.spec.ts', 
       use: { ...devices['Desktop Chrome'] },
     },
 

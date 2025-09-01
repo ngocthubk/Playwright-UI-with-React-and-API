@@ -1,13 +1,13 @@
 [
     {
-        "title": "Isolate test data between workers",
-        "description": "Experiment Playwright with UI Test",
+        "title": "Experiment Playwright with UI Test",
+        "description": "Isolate test data between workers. Organize the test environments dev and stage",
         "category": "Work",
         "completed": false
     },
-    {
-        "title": "Go to the suppermarket",
-        "description": "Buy chayote",
+     {
+        "title": "Mock API",
+        "description": "Experiment Playwright with component test by Mock API and React",
         "category": "Home",
         "completed": true
     },
