@@ -39,6 +39,7 @@ export const test = base.extend<PagesFixtures>({
         const note = await new Note(page);
         for (let item of notes){
             let title = item!.title + (test.info().workerIndex).toString()
+            // Cannot create a note through API, because a 
             await note.addNote(title,item!.description,item!.category,item.completed)        
         }
         await use(note);        
