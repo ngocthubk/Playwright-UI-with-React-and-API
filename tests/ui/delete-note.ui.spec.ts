@@ -1,10 +1,13 @@
 import { verify } from 'crypto'
 import {test,expect} from '../../helpers/fixtures/page.fixture'
 import {Note} from '../../helpers/page-objects/note'
-import notes from '../../test-data/note.json'
+import { teardown } from '../../helpers/common/teardown';
+import { fetchTestData } from '../../helpers/data-factory/note'
 
 
 test.describe('Delete a note successfully',()=> { 
+
+    let notes = fetchTestData()
     test.beforeEach('Login',async ({loginPage,request}) => {
 
     })
@@ -29,6 +32,7 @@ test.describe('Delete a note successfully',()=> {
 
 test.describe('Delete a note unsuccessfully',()=> {
     let title
+    let notes = fetchTestData()
     test.beforeEach('Login',async ({loginPage,request}) => {
 
     })
@@ -45,23 +49,9 @@ test.describe('Delete a note unsuccessfully',()=> {
         })
         
     })
-    test('Complete a note ', async ({note}) => {
-        title = notes[1]!.title + (test.info().workerIndex).toString()
-        await test.step('Complete a note',async () => {
-            
-            await note.completeNote(title);
-        })
-
-        await test.step('Verify if the note exists',async () => {
-            
-            await note.verifyNoteComplete(title,true)
-        })
-        
-    })
+    
     test.afterEach(`Teardown - Delete a note`, async ({page}) => {
-        let note = await new Note(page)
-        await note.deleteNote(title,true)
-        await page.close()
+        await teardown(page, title)
     })
 })
     

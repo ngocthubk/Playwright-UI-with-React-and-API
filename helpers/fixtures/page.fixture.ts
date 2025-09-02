@@ -11,8 +11,7 @@ import { getNotes,FullNote } from '../api/note';
 
 type PagesFixtures = {
     loginPage: LoginPage;
-    note: Note;
-    interactNote: Note;
+    note: Note;   
     multiNote: Note
 
 }
@@ -30,22 +29,19 @@ export const test = base.extend<PagesFixtures>({
 
         let title = notes[1]!.title + (test.info().workerIndex).toString()
         await note.addNote(title,notes[1]!.description,notes[1]!.category,notes[1]!.completed)        
-        await use(note);
-
-        
+        await use(note);        
     },
-    multiNote: async ({page,request},use) => {
-        test.setTimeout(100_000)
+    multiNote: async ({page},use) => {
+        test.setTimeout(200_000)
         const note = await new Note(page);
+        await note.interceptRequest() 
         for (let item of notes){
             let title = item!.title + (test.info().workerIndex).toString()
-            // Cannot create a note through API, because a 
+            // Cannot create a note through API, creating a note through API does not accept the input 'completed'
             await note.addNote(title,item!.description,item!.category,item.completed)        
         }
-        await use(note);        
-        
-    },
-   
+        await use(note);                
+    }   
 });
 
 export { expect } from '@playwright/test';

@@ -1,10 +1,12 @@
 import { verify } from 'crypto'
 import {test,expect} from '../../helpers/fixtures/page.fixture'
 import {Note} from '../../helpers/page-objects/note'
-import notes from '../../test-data/note.json'
+import {fetchTestData,TestData} from '../../helpers/data-factory/note'
+import { teardown } from '../../helpers/common/teardown';
 
 test.describe('Interact with a note',()=> {
     let title
+    let notes = fetchTestData()
     test.beforeEach('Login',async ({loginPage}) => {
 
     })
@@ -23,9 +25,7 @@ test.describe('Interact with a note',()=> {
         
     })
     test.afterEach('Teardown',async ({page}) =>{
-        let note = new Note(page)
-        await note.deleteNote(title,true)
-        await page.close()
+         await teardown(page, title)
     })
           
 })

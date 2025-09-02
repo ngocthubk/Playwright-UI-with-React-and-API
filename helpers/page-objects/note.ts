@@ -14,6 +14,7 @@ export class Note{
     private readonly ctrCtgWork
     private readonly ctrCtgHome
     private readonly ctrCtgPersonal
+    private readonly ctrLogout
 
      /** Constructor of class Note
     @param page the fixture Page
@@ -30,8 +31,14 @@ export class Note{
         this.ctrCtgWork = this.page.getByTestId('category-all')
         this.ctrCtgHome = this.page.getByTestId('category-home')
         this.ctrCtgPersonal = this.page.getByTestId('category-personal')
+        this.ctrLogout = this.page.getByTestId('logout')
      }
-
+     /* Logout */
+    async logout(){
+        const urlResponse = this.page.waitForResponse(this.page.url())
+        await this.ctrLogout.click()
+        // await urlResponse
+    }
     /** Open the form Add new note
      * @param title The title of the note
     */
@@ -123,7 +130,7 @@ export class Note{
         
         await this.ctrCtgAll.click();
         console.log("Found Alls:", await parent.count());
-        // console.log("Found parents:", await parent.count());
+        
         await parent.evaluateHandle((element) => {let button = document.createElement('button');
             button.textContent='Completed';
             button.setAttribute('class','btn btnx-primary text-black fw-bold rounded w-25 me-3');
@@ -132,58 +139,59 @@ export class Note{
             button.onclick = () => fetch('api/completed') 
         });
     }
-
+    /* Open all notes */
     async openAllNotes()
     {
 
         await this.ctrCtgAll.click()
     }
-
+    /* Open work notes */
     async openWorkNotes()
     {
 
         await this.ctrCtgWork.click()
     }
-
+    /* Open home notes */
     async openHomeNotes()
     {
 
         await this.ctrCtgHome.click()
     }
-
+    /* Open personal notes */
     async openPersonalNotes()
     {
 
         await this.ctrCtgPersonal.click()
     }
 
+    /* Intercept the request to the resource *\/**\/**\/notes, return only uncompleted notes*/
     async interceptRequest(){
-        let jsonCompleted: TestData[] = new Array(0)
+        let jsonCompleted: TestData[] 
         let body 
         await this.page.route('*/**/**/notes',async route => {
+            jsonCompleted  = new Array(0)
+            const response = await route.fetch();
+            const json = await response.json();
       
-        const response = await route.fetch();
-        const json = await response.json();
-      
-        for (let item of json.data){
-        if (item.completed  == false) 
-          jsonCompleted.push(item)
-        }    
-
-        body = {"success": true,
+            for (let item of json.data){
+                if (item.completed  == false){ 
+                    jsonCompleted.push(item)
+                }
+          
+             }       
+            
+            body = {"success": true,
                "status": 200,
                "message": "Notes successfully retrieved",
-               "data":  jsonCompleted}
-      // body.data = jsonCompleted
-        console.log(JSON.stringify(body))
+               "data":  jsonCompleted}            
  
-        await route.fulfill({status: 200,
-        headers: { 'Content-Type': 'application/json',
+            await route.fulfill({status: 200,
+            headers: { 'Content-Type': 'application/json',
 
-        },
+            },
         
-        response: response,
-        body: JSON.stringify(body)})            
-    })
+            response: response,
+            body: JSON.stringify(body)})            
+        })
     }
 }

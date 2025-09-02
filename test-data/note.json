@@ -17,7 +17,7 @@
         "category": "Personal",
         "completed": false
     },
-        {
+    {
         "title": "Combine API test and UI test",
         "description": "API and UI are combined to create data, verify the results and teardown",
         "category": "Personal",
