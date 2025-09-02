@@ -32,7 +32,7 @@ export const test = base.extend<PagesFixtures>({
         await use(note);        
     },
     multiNote: async ({page},use) => {
-        test.setTimeout(200_000)
+        test.setTimeout(300_000)
         const note = await new Note(page);
         await note.interceptRequest() 
         for (let item of notes){

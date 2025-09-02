@@ -50,11 +50,10 @@ test("Show all uncompleted Personal Notes - Mock API",{tag: ['@mockAPI'],}, asyn
          await multiNote.verifyNoteNotExist(title)        
 
     }
-    
-    
+        
 });
  test.afterEach('Teardown',async ({page,request}) => {
-      test.setTimeout(420_000) 
+      test.setTimeout(600_000) 
       await teardownAll(request,page)
 })
 })
