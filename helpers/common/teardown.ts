@@ -9,11 +9,12 @@ export async function teardownAll(request:APIRequestContext,page){
     items?.forEach(async ( {id})=>{
             
         await deleteNote(request,id)
+        // await page.waitForResponse(`*/**/api/notes/${id}`,{ timeout: 20000 })
     })
     let note = await new Note(page)
-    await note.logout()
+    await note.goToHome()
     await page.close()
-    await request.dispose()    
+    // await request.dispose()    
         
 }
 

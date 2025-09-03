@@ -17,7 +17,7 @@ test.describe('Create a note',()=> {
                         
             await test.step('Create a new note',async () => {
                 noteAPI = await createNote(request,noteTitle,description,category)
-
+                console.log(noteAPI)
                 noteId = noteAPI.id
             }) 
             await test.step('Verify the response',async () => {
@@ -34,6 +34,7 @@ test.describe('Create a note',()=> {
 
             await test.step('Verify if the note exists on the UI',async () => {
                 note = await new Note(page)
+                await note.goToHome()
                 await note.verifyNoteExist(noteTitle,description,category,false)
             })            
         
@@ -43,7 +44,7 @@ test.describe('Create a note',()=> {
     // Teardown
     test.afterEach('Teardown - Delete a note',async ({page,request}) => {
         
-        await deleteNote(request,noteId);
+        // await deleteNote(request,noteId);
         await page.close()
     })
 })

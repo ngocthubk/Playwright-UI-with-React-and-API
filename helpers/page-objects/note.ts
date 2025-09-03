@@ -15,6 +15,7 @@ export class Note{
     private readonly ctrCtgHome
     private readonly ctrCtgPersonal
     private readonly ctrLogout
+    private readonly ctrHome
 
      /** Constructor of class Note
     @param page the fixture Page
@@ -32,12 +33,19 @@ export class Note{
         this.ctrCtgHome = this.page.getByTestId('category-home')
         this.ctrCtgPersonal = this.page.getByTestId('category-personal')
         this.ctrLogout = this.page.getByTestId('logout')
+        this.ctrHome = this.page.getByTestId('home')
      }
      /* Logout */
     async logout(){
         
         await this.ctrLogout.click()
         await this.ctrLogout.waitFor({state: "detached"})
+        
+    }
+
+    async goToHome(){
+        
+        await this.ctrHome.click()
         
     }
     /** Open the form Add new note

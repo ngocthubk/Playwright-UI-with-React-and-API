@@ -20,7 +20,7 @@ test.describe.serial('Show notes',()=> {
 /* Now only all uncompleted notes are shown when clicking on the button All. 
  */
 test("Show all uncompleted Notes - Mock API",{tag: ['@mockAPI']}, async ({ multiNote }) => {
-  test.setTimeout(300_000)  
+  test.setTimeout(200_000)  
     await test.step('Click on the button All',async ({})=>{
         await multiNote.openAllNotes()
     })  
@@ -32,8 +32,7 @@ test("Show all uncompleted Notes - Mock API",{tag: ['@mockAPI']}, async ({ multi
       else        
         await multiNote.verifyNoteExist(title,item.description,item.category,item.completed)
 
-    }
-   
+    } 
   })
 
   /*  Now only uncompleted personal notes are shown when clicking on the button Personal. 
@@ -62,7 +61,5 @@ test("Show all uncompleted Personal Notes - Mock API",{tag: ['@mockAPI'],}, asyn
 
       
 })
- test.afterAll('Teardown',async ({request},testInfo) => {
 
-})
 })
