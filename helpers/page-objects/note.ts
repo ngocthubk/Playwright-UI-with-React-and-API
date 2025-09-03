@@ -44,9 +44,10 @@ export class Note{
     }
     /* Go to Home */
     async goToHome(){
-        
+        await Promise.all([
+        this.page.waitForResponse("https://practice.expandtesting.com/notes/app/"),
         await this.ctrHome.click()
-        
+        ]);
     }
     /** Open the form Add new note
      * @param title The title of the note
@@ -179,8 +180,13 @@ export class Note{
         let body 
         await this.page.route('*/**/**/notes',async route => {
             jsonCompleted  = new Array(0)
-            const response = await route.fetch();
+            let response = await route.fetch();
+            
+            console.log( response.status())
+            console.log( response.statusText())
             console.log(await response.text())
+            if (!response.ok())
+                response = await route.fetch()
             const json = await response.json();
       
             for (let item of json.data){

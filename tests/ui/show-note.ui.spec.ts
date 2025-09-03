@@ -13,7 +13,7 @@ test.describe('Show notes',()=> {
   let notes = fetchTestData()  
   // let request
   test.beforeEach('Login',async ({loginPage},testInfo) => {
-      testInfo.setTimeout(testInfo.timeout + 30000);
+      
     })
   
 /* Now only all uncompleted notes are shown when clicking on the button All. 
