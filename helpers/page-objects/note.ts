@@ -16,6 +16,7 @@ export class Note{
     private readonly ctrCtgPersonal
     private readonly ctrLogout
     private readonly ctrHome
+    private readonly ctrProfile
 
      /** Constructor of class Note
     @param page the fixture Page
@@ -34,6 +35,7 @@ export class Note{
         this.ctrCtgPersonal = this.page.getByTestId('category-personal')
         this.ctrLogout = this.page.getByTestId('logout')
         this.ctrHome = this.page.getByTestId('home')
+        this.ctrProfile = this.page.getByTestId('profile')
      }
      /* Logout */
     async logout(){
@@ -42,11 +44,18 @@ export class Note{
         await this.ctrLogout.waitFor({state: "detached"})
         
     }
+    /* Go to Profile */
+    async goToProfile(){
+        await Promise.all([
+            this.page.waitForResponse('app/profile'),
+            this.ctrProfile.click()
+        ])
+    }
     /* Go to Home */
     async goToHome(){
         await Promise.all([
-        this.page.waitForResponse("https://practice.expandtesting.com/notes/app/"),
-        await this.ctrHome.click()
+            this.page.waitForResponse(this.page.url()),
+            this.ctrHome.click()
         ]);
     }
     /** Open the form Add new note
@@ -178,15 +187,23 @@ export class Note{
     async interceptRequest(){
         let jsonCompleted: NoteType[] 
         let body 
-        await this.page.route('*/**/**/notes',async route => {
+        await this.page.route('*/**/api/notes',async route => {
             jsonCompleted  = new Array(0)
-            let response = await route.fetch();
+            let response = await route.fetch({headers: {
+            accept: 'application/json',
+            'x-auth-token': process.env.authToken!
+                
+            }});
+            console.log(response.headers())
             
             console.log( response.status())
             console.log( response.statusText())
             console.log(await response.text())
             if (!response.ok())
-                response = await route.fetch()
+                response = await route.fetch({headers: {
+            accept: 'application/json'
+        
+            }})
             const json = await response.json();
       
             for (let item of json.data){

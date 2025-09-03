@@ -1,7 +1,7 @@
 import { test as base, APIRequestContext } from '@playwright/test';
 import { LoginPage } from '../page-objects/login-page';
 import {Note} from '../../helpers/page-objects/note'
-import {fetchTestData,TestData} from '../../helpers/data-factory/note'
+import {fetchTestData,NoteType} from '../../helpers/data-factory/note'
 import { AddNote } from '../page-objects/add-note';
 // import notes from '../../test-data/note.json'
 import { getNotes,FullNote,createNote } from '../api/note';

@@ -10,7 +10,7 @@ export async function teardownAll(request:APIRequestContext,page, noteTitles: st
         // await page.waitForResponse(`*/**/api/notes/${id}`,{ timeout: 20000 })
     })
     let note = await new Note(page)
-    await note.goToHome()
+    await note.goToProfile()
     await page.close()
     // await request.dispose()    
         

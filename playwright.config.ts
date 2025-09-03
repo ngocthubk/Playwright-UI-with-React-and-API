@@ -43,6 +43,7 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    
   },
 
   /* Configure projects for major browsers */
@@ -50,7 +51,15 @@ export default defineConfig({
     {
       name: 'UI chrome',
       testMatch: '**/*.spec.ts', 
-      use: { ...devices['Desktop Chrome'] },
+      use: { 
+        ...devices['Desktop Chrome'],
+        deviceScaleFactor: undefined,
+        viewport: null,
+        launchOptions: {
+      // 1
+      args: ["--start-maximized"],
+    },
+      },
     },
 
      {
