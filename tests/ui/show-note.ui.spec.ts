@@ -6,7 +6,7 @@ import { getNotes,FullNote,deleteNote, createNote, getNote } from '../../helpers
 import { teardownAll } from '../../helpers/common/teardown';
 
 
-/* Assume that the business is changed. But the real API are not updated.
+/* Assume that the business is changed. But the real API are still not updated.
 Mock API is used instead to test the new feature.*/
 test.describe('Show notes',()=> {
   let note

@@ -1,6 +1,6 @@
 import { Page,expect,test } from '@playwright/test';
 import {AddNote} from './add-note'
-import {fetchTestData,TestData} from '../../helpers/data-factory/note'
+import {fetchTestData,NoteType} from '../../helpers/data-factory/note'
 
 export class Note{
 
@@ -42,7 +42,7 @@ export class Note{
         await this.ctrLogout.waitFor({state: "detached"})
         
     }
-
+    /* Go to Home */
     async goToHome(){
         
         await this.ctrHome.click()
@@ -95,9 +95,7 @@ export class Note{
 
                     await this.ctrCncDelete.click();
                 })
-            }
-        
-
+            }        
     }
 
     /** Verify if a note exists
@@ -123,17 +121,19 @@ export class Note{
         await expect.soft(await this.page.locator(this.ctrNoteCheckLct.replace('#noteTitle#',title)+`[note.completed=${complete}]`)).toBeVisible()
        
     }
+
     /** Verify if a note does not exist
      * @param title The title of the note
      * @param complete True or false
      * 
-      */
+    */
     async verifyNoteNotExist(title: string){
         
         await expect.soft(await this.page.locator(this.ctrNote.replace('#noteTitle#',title))).not.toBeVisible();
         
     }
 
+    /* Mock UI: Add a new button Completed to show only completed notes */
     async addButton(){
         let parent = await this.page.locator('//*[@class="d-flex"]').filter({has: this.ctrCtgAll})
         
@@ -145,7 +145,7 @@ export class Note{
             button.setAttribute('class','btn btnx-primary text-black fw-bold rounded w-25 me-3');
             button.setAttribute('style','border-color: rgb(222, 226, 230); background-color: rgb(105, 188, 255);');
             element.appendChild(button);
-            button.onclick = () => fetch('api/completed') 
+            button.onclick = () => fetch('api/notes/completed') 
         });
     }
     /* Open all notes */
@@ -175,11 +175,12 @@ export class Note{
 
     /* Intercept the request to the resource *\/**\/**\/notes, return only uncompleted notes*/
     async interceptRequest(){
-        let jsonCompleted: TestData[] 
+        let jsonCompleted: NoteType[] 
         let body 
         await this.page.route('*/**/**/notes',async route => {
             jsonCompleted  = new Array(0)
             const response = await route.fetch();
+            console.log(await response.text())
             const json = await response.json();
       
             for (let item of json.data){

@@ -23,7 +23,7 @@ export async function getNotes(request: APIRequestContext):Promise<FullNote[]>{
         'x-auth-token': token!
     }})
     let json = await response.json()
-    console.log(await response.text())
+
     return json.data
 }
 /** Delete a note 
