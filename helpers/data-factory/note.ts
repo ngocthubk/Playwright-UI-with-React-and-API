@@ -5,14 +5,14 @@ import { mock } from 'node:test';
 
 import _fetch from 'sync-fetch'
 
-export type TestData = {
+export type NoteType = {
         title: string,
         description: string,
         category: string,
         completed: boolean
 }
 /* Fetch test data according to the environment  */
-export  function fetchTestData(): TestData[] {
+export  function fetchTestData(): NoteType[] {
     
     switch (process.env.environment) { // environment can be extended
         case 'stage': {
