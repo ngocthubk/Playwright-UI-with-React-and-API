@@ -23,6 +23,7 @@ export async function getNotes(request: APIRequestContext):Promise<FullNote[]>{
         'x-auth-token': token!
     }})
     let json = await response.json()
+    console.log(await response.text())
     return json.data
 }
 /** Delete a note 
@@ -34,11 +35,11 @@ export async function deleteNote(request: APIRequestContext, id:string):Promise<
     
     let response = await request.delete(`api/notes/${id}`,{headers: {
         accept: 'application/json',
-        'x-auth-token': token!
-    }
-})
+        'x-auth-token': token!,
+        
+    },    
+    timeout: 60000})
     // let json = await response.json()
-    console.log(await response.text())
     return  JSON.parse(await response.text())
 }
 /** Create a note

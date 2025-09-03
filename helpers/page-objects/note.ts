@@ -35,9 +35,10 @@ export class Note{
      }
      /* Logout */
     async logout(){
-        const urlResponse = this.page.waitForResponse(this.page.url())
+        
         await this.ctrLogout.click()
-        // await urlResponse
+        await this.ctrLogout.waitFor({state: "detached"})
+        
     }
     /** Open the form Add new note
      * @param title The title of the note
