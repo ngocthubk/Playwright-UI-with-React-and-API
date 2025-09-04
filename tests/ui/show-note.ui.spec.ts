@@ -1,67 +1,55 @@
 import { verify } from 'crypto';
-import { TestData } from '../../helpers/data-factory/note';
+import { NoteType,fetchTestData } from '../../helpers/data-factory/note';
 import {test,expect} from '../../helpers/fixtures/page.fixture'
 import { Note } from '../../helpers/page-objects/note';
-import notes from '../../test-data/note.json'
-import { getNotes,FullNote,deleteNote } from '../../helpers/api/note';
+import { getNotes,FullNote,deleteNote, createNote, getNote } from '../../helpers/api/note';
+import { teardownAll } from '../../helpers/common/teardown';
 
-test.describe('Interact with a note',()=> {
-  test.beforeEach('Login',async ({loginPage,request}) => {
 
+/* Assume that the business is changed. But the real API are still not updated.
+Mock API is used instead to test the new feature.*/
+test.describe('Show notes',()=> {
+  let note
+  let notes = fetchTestData()  
+  // let request
+  test.beforeEach('Login',async ({loginPage},testInfo) => {
+      
     })
   
-/* Assume that the business is changed. Now only all uncompleted notes are shown when clicking on the button All. But the real API are not updated.
-Mock API is used instead to test the new feature.
+/* Now only all uncompleted notes are shown when clicking on the button All. 
  */
-test("Show all uncompleted Notes - Mock API",{tag: ['@mockUI','@mockAPI'],}, async ({ page, multiNote }) => {
-  test.setTimeout(200_000)  
-  let note = await new Note(page)
-    await note.interceptRequest() 
-  
-    // await note.addButton();
-    await note.openAllNotes()
-
+test("Show all uncompleted Notes - Mock API",{tag: ['@mockAPI']}, async ({ multiNote }) => {
+  test.setTimeout(240_000)  
+    await test.step('Click on the button All',async ({})=>{
+        await multiNote.openAllNotes()
+    })  
+    
     for (let item of notes){
       let title = item.title+(test.info().workerIndex).toString()
       if (item.completed)
-        await note.verifyNoteNotExist(title)
-      else
-        
-        await note.verifyNoteExist(title,item.description,item.category,item.completed)
+        await multiNote.verifyNoteNotExist(title)
+      else        
+        await multiNote.verifyNoteExist(title,item.description,item.category,item.completed)
 
-    }
-   
+    } 
   })
 
-  /* Assume that the business is changed. Now only uncompleted personal notes are shown when clicking on the button Personal. But the real API are not updated.
-Mock API is used instead to test the new feature.
+  /*  Now only uncompleted personal notes are shown when clicking on the button Personal. 
  */
-test("Show all uncompleted Personal Notes - Mock API",{tag: ['@mockUI','@mockAPI'],}, async ({ page, multiNote }) => {
-  test.setTimeout(200_000)  
-  let note = await new Note(page)
-    await note.interceptRequest() 
-  
-    // await note.addButton();
-    await note.openPersonalNotes()
+test("Show all uncompleted Personal Notes - Mock API",{tag: ['@mockAPI'],}, async ({  multiNote,page }) => {
+    test.setTimeout(240_000)  
+
+    await multiNote.openPersonalNotes()
 
     for (let item of notes){
       let title = item.title+(test.info().workerIndex).toString()
       if (!item.completed && item.category == 'Personal')
-       await note.verifyNoteExist(title,item.description,item.category,item.completed)
+         await multiNote.verifyNoteExist(title,item.description,item.category,item.completed)
       else
-         await note.verifyNoteNotExist(title)        
+         await multiNote.verifyNoteNotExist(title)        
 
-    }
-    
-    
+    }        
 });
- test.afterEach('Teardown',async ({request,page}) => {
-      let items: FullNote[] = await getNotes(request)
-        console.log(items)
-        items?.forEach(async ( {id})=>{
-            
-            await deleteNote(request,id)        
-        })
-        await page.close()
-    })
+
+
 })

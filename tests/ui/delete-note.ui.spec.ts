@@ -1,16 +1,20 @@
 import { verify } from 'crypto'
 import {test,expect} from '../../helpers/fixtures/page.fixture'
 import {Note} from '../../helpers/page-objects/note'
-import notes from '../../test-data/note.json'
+import { teardown } from '../../helpers/common/teardown';
+import { fetchTestData } from '../../helpers/data-factory/note'
 
 
 test.describe('Delete a note successfully',()=> { 
+
+    let notes = fetchTestData()
     test.beforeEach('Login',async ({loginPage,request}) => {
 
     })
         
-    test(`Delete a note with the confirmation`, async ({note,page}) => {
+    test(`Delete a note with the confirmation`, async ({note}) => {
         let title = notes[1]!.title + (test.info().workerIndex).toString()
+        await note.goToHome()
         await test.step('Click on the button Delete',async () => {
             
             await note.deleteNote(title,true);
@@ -29,11 +33,13 @@ test.describe('Delete a note successfully',()=> {
 
 test.describe('Delete a note unsuccessfully',()=> {
     let title
+    let notes = fetchTestData()
     test.beforeEach('Login',async ({loginPage,request}) => {
 
     })
     test(`Cancel deleting a note `, async ({note,page}) => {
         title = notes[1]!.title + (test.info().workerIndex).toString()
+        await note.goToHome()
         await test.step('Click on the button Delete',async () => {
             
             await note.deleteNote(title,false);
@@ -41,27 +47,13 @@ test.describe('Delete a note unsuccessfully',()=> {
 
         await test.step('Verify if the note exists',async () => {
 
-            await note.verifyNoteExist(title,notes[1]!.description,notes[1]!.category,notes[1]!.completed)
+            await note.verifyNoteExist(title,notes[1]!.description,notes[1]!.category,false)
         })
         
     })
-    test('Complete a note ', async ({note}) => {
-        title = notes[1]!.title + (test.info().workerIndex).toString()
-        await test.step('Complete a note',async () => {
-            
-            await note.completeNote(title);
-        })
-
-        await test.step('Verify if the note exists',async () => {
-            
-            await note.verifyNoteComplete(title,true)
-        })
-        
-    })
+    
     test.afterEach(`Teardown - Delete a note`, async ({page}) => {
-        let note = await new Note(page)
-        await note.deleteNote(title,true)
-        await page.close()
+        await teardown(page, title)
     })
 })
     

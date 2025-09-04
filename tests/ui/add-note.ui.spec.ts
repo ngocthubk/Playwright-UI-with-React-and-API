@@ -2,6 +2,7 @@ import {test,expect} from '../../helpers/fixtures/page.fixture'
 import {Note} from '../../helpers/page-objects/note'
 import { AddNote } from '../../helpers/page-objects/add-note'
 import {fetchTestData,TestData} from '../../helpers/data-factory/note'
+import { teardown } from '../../helpers/common/teardown';
 
 test.describe('Create a note',()=> {
        let note
@@ -38,9 +39,8 @@ test.describe('Create a note',()=> {
 
     // Teardown
     test.afterEach('Teardown - Delete a note',async ({page}) => {
+        await teardown(page, noteTitle)
         
-        await note.deleteNote(noteTitle,true);
-        await page.close()
     })
 })
 

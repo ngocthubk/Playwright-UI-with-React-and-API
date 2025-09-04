@@ -41,6 +41,11 @@ export class AddNote{
 
     }
 
+    async checkAddNoteDisplay():Promise<boolean>{
+        const isVisible = await this.page.getByText('Add new note').isVisible();
+        return isVisible
+    }
+
     /* Click on the button Create */
     async clickCreate(){
         await this.ctrCrt.click()

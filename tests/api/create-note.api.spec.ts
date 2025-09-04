@@ -1,7 +1,7 @@
 import {test,expect} from '../../helpers/fixtures/page.fixture'
 import {Note} from '../../helpers/page-objects/note'
 import { AddNote } from '../../helpers/page-objects/add-note'
-import {fetchTestData,TestData} from '../../helpers/data-factory/note'
+import {fetchTestData,NoteType} from '../../helpers/data-factory/note'
 import { getNotes,FullNote,deleteNote, createNote, getNote } from '../../helpers/api/note';
 import { request } from 'http';
 
@@ -17,7 +17,7 @@ test.describe('Create a note',()=> {
                         
             await test.step('Create a new note',async () => {
                 noteAPI = await createNote(request,noteTitle,description,category)
-
+                console.log(noteAPI)
                 noteId = noteAPI.id
             }) 
             await test.step('Verify the response',async () => {
@@ -34,6 +34,7 @@ test.describe('Create a note',()=> {
 
             await test.step('Verify if the note exists on the UI',async () => {
                 note = await new Note(page)
+                await note.goToHome()
                 await note.verifyNoteExist(noteTitle,description,category,false)
             })            
         
