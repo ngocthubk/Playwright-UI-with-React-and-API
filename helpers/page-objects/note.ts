@@ -46,17 +46,49 @@ export class Note{
     }
     /* Go to Profile */
     async goToProfile(){
-        await Promise.all([
-            this.page.waitForResponse('app/profile'),
-            this.ctrProfile.click()
-        ])
+        // Escape advertisements
+        this.page.on('dialog', async dialog => {
+            console.log(dialog.message());
+            await dialog.dismiss();
+        });
+       
+        await  this.ctrProfile.click()
+        let url = this.page.url()
+        // Escape advertisements
+        if (url.search('#') > -1){  
+            url = url.split('#')[0]          
+            
+        }
+        let found = url.search('profile')            
+            if (found == -1 ){
+               url = url+'/profile' 
+               await this.page.goto(url)               
+            }
+            
+            await this.page.waitForURL(url)
+
+        
+        
+        // await this.ctrProfile.click()
     }
     /* Go to Home */
     async goToHome(){
-        await Promise.all([
-            this.page.waitForResponse(this.page.url()),
-            this.ctrHome.click()
-        ]);
+        // Escape advertisements
+        this.page.on('dialog', async dialog => {
+            console.log(dialog.message());
+            await dialog.dismiss();
+        });
+        
+        await  this.ctrHome.click()
+        let url = this.page.url()  
+        // Escape advertisements
+        if (url.search('#')){
+            console.log(url.split('#')[0])
+            url = url.split('#')[0].split('app')[0]+'app'
+            await this.page.goto(url)
+        }
+        await this.page.waitForURL(url)      
+        
     }
     /** Open the form Add new note
      * @param title The title of the note
