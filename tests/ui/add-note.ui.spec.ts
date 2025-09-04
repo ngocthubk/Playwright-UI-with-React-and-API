@@ -1,7 +1,7 @@
 import {test,expect} from '../../helpers/fixtures/page.fixture'
 import {Note} from '../../helpers/page-objects/note'
 import { AddNote } from '../../helpers/page-objects/add-note'
-import {fetchTestData,TestData} from '../../helpers/data-factory/note'
+import {fetchTestData,NoteType} from '../../helpers/data-factory/note'
 import { teardown } from '../../helpers/common/teardown';
 
 test.describe('Create a note',()=> {

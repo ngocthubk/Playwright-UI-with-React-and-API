@@ -14,7 +14,6 @@ export type FullNote ={
 /**Get all notes
  * @param request APIRequestContext
  * Return a list of notes
- * 
   */
 export async function getNotes(request: APIRequestContext):Promise<FullNote[]>{
     let token = process.env.authToken
@@ -26,6 +25,7 @@ export async function getNotes(request: APIRequestContext):Promise<FullNote[]>{
 
     return json.data
 }
+
 /** Delete a note 
  * @param request APIRequestContext
  * @param id: ID of the note
@@ -42,6 +42,7 @@ export async function deleteNote(request: APIRequestContext, id:string):Promise<
     // let json = await response.json()
     return  JSON.parse(await response.text())
 }
+
 /** Create a note
 @param APIRequestContext
 @param title The title of the note
@@ -49,7 +50,6 @@ export async function deleteNote(request: APIRequestContext, id:string):Promise<
 @param category The category of the note 
 Return either a list of notes or the response
 */
-
 export async function createNote(request: APIRequestContext, title:string,description: string, category: string):Promise<any>{    
     let response = await request.post('api/notes',{headers: {
         'Accept': 'application/json',

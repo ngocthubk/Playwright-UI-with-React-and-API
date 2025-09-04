@@ -107,8 +107,10 @@ export class Note{
     async addNote(title: string, dsc: string, category: string, complete: boolean){
         let addNote = await new AddNote(this.page)
         await this.openAddNote()
-        if (!await addNote.checkAddNoteDisplay())
+        if (!await addNote.checkAddNoteDisplay()){
             await this.openAddNote()
+            console.log('Try again to open the Popup Add Note')
+        }
         
         await addNote.inputNote(title, dsc, category, complete)
         await addNote.clickCreate()
@@ -127,6 +129,10 @@ export class Note{
       */
     async deleteNote(title: string, confirm: boolean){
             await this.page.locator(this.ctrNoteDlt.replace('#noteTitle#',title)).click();
+            if (!await this.ctrCnfDelete.isVisible()){
+                await this.page.locator(this.ctrNoteDlt.replace('#noteTitle#',title)).click();
+                console.log('Try again to delete the note')
+            }
             if (confirm){
                 await test.step('Confirm the deletion',async () => {
 

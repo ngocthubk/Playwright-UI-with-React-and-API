@@ -1,7 +1,7 @@
 import {test,expect} from '../../helpers/fixtures/api.fixture'
 import {Note} from '../../helpers/page-objects/note'
 import { AddNote } from '../../helpers/page-objects/add-note'
-import {fetchTestData,TestData} from '../../helpers/data-factory/note'
+import {fetchTestData,NoteType} from '../../helpers/data-factory/note'
 import { getNotes,FullNote,deleteNote, createNote, getNote } from '../../helpers/api/note';
 import { request } from 'http';
 import {extractNoteID} from '../../helpers/common/list'
