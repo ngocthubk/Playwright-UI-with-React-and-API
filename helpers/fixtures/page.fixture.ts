@@ -37,7 +37,7 @@ export const test = base.extend<PagesFixtures,{ forEachWorker: void }>({
     multiNote: async ({page,request},use) => {
         let noteTitles : string[] = new Array(0)
         test.setTimeout(300_000)
-        console.log()
+        
         const note = await new Note(page);
         await note.interceptRequest() 
         
@@ -48,7 +48,7 @@ export const test = base.extend<PagesFixtures,{ forEachWorker: void }>({
             await note.addNote(title,item!.description,item!.category,item.completed)        
         }
         await use(note);
-        
+        console.log('Teardown in Fixture')
         await teardownAll(request,page,noteTitles)                
     }   
 });
