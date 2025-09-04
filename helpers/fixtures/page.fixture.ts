@@ -3,7 +3,7 @@ import { LoginPage } from '../page-objects/login-page';
 import {Note} from '../../helpers/page-objects/note'
 import {fetchTestData,NoteType} from '../../helpers/data-factory/note'
 import { AddNote } from '../page-objects/add-note';
-import { getNotes,FullNote } from '../api/note';
+import { getNotes,FullNote, createNote } from '../api/note';
 import { teardownAll } from '../../helpers/common/teardown';
 
 
@@ -19,7 +19,8 @@ export const test = base.extend<PagesFixtures,{ forEachWorker: void }>({
     forEachWorker: [async ({},use)=>{
         notes = fetchTestData()
         use()
-    },{ scope: 'worker', auto: true }],
+    },{ scope: 'worker', auto: true         
+    }],
     loginPage: async ({page,request},use) => {
         const loginPage = await new LoginPage(page);
         await loginPage.goto();
@@ -30,7 +31,7 @@ export const test = base.extend<PagesFixtures,{ forEachWorker: void }>({
     note: async ({page,request},use) => {
         const note = await new Note(page);
         let title = notes[1]!.title + (test.info().workerIndex).toString()
-        await note.addNote(title,notes[1]!.description,notes[1]!.category,notes[1]!.completed)        
+        await createNote(request,title,notes[1]!.description,notes[1]!.category)        
         await use(note);        
     },
     multiNote: async ({page,request},use) => {
@@ -47,7 +48,7 @@ export const test = base.extend<PagesFixtures,{ forEachWorker: void }>({
             await note.addNote(title,item!.description,item!.category,item.completed)        
         }
         await use(note);
-        console.log('teardown')
+        
         await teardownAll(request,page,noteTitles)                
     }   
 });

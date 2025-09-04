@@ -44,7 +44,7 @@ test.describe('Create a note',()=> {
     // Teardown
     test.afterEach('Teardown - Delete a note',async ({page,request}) => {
         
-        // await deleteNote(request,noteId);
+        await deleteNote(request,noteId);
         await page.close()
     })
 })

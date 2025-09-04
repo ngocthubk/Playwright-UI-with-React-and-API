@@ -54,10 +54,10 @@ export class Note{
        
         await  this.ctrProfile.click()
         let url = this.page.url()
+
         // Escape advertisements
         if (url.search('#') > -1){  
-            url = url.split('#')[0]          
-            
+            url = url.split('#')[0]                      
         }
         let found = url.search('profile')            
             if (found == -1 ){
@@ -65,28 +65,27 @@ export class Note{
                await this.page.goto(url)               
             }
             
-            await this.page.waitForURL(url)
-
-        
-        
-        // await this.ctrProfile.click()
+            await this.page.waitForURL(url)        
     }
     /* Go to Home */
     async goToHome(){
+
         // Escape advertisements
         this.page.on('dialog', async dialog => {
-            console.log(dialog.message());
+            
             await dialog.dismiss();
         });
         
         await  this.ctrHome.click()
         let url = this.page.url()  
+
         // Escape advertisements
         if (url.search('#')){
-            console.log(url.split('#')[0])
+            
             url = url.split('#')[0].split('app')[0]+'app'
             await this.page.goto(url)
         }
+
         await this.page.waitForURL(url)      
         
     }
@@ -95,7 +94,7 @@ export class Note{
     */
     async openAddNote(){
 
-        await this.ctrAddNote.click();
+        await this.ctrAddNote.click();        
     }
 
     /** Add a note
@@ -108,6 +107,9 @@ export class Note{
     async addNote(title: string, dsc: string, category: string, complete: boolean){
         let addNote = await new AddNote(this.page)
         await this.openAddNote()
+        if (!await addNote.checkAddNoteDisplay())
+            await this.openAddNote()
+        
         await addNote.inputNote(title, dsc, category, complete)
         await addNote.clickCreate()
         await this.page.locator(this.ctrNote.replace('#noteTitle#',title).replace('#noteDsc#',dsc).replace('#noteCtg#',category))
@@ -178,10 +180,7 @@ export class Note{
     /* Mock UI: Add a new button Completed to show only completed notes */
     async addButton(){
         let parent = await this.page.locator('//*[@class="d-flex"]').filter({has: this.ctrCtgAll})
-        
-        await this.ctrCtgAll.click();
-        console.log("Found Alls:", await parent.count());
-        
+                
         await parent.evaluateHandle((element) => {let button = document.createElement('button');
             button.textContent='Completed';
             button.setAttribute('class','btn btnx-primary text-black fw-bold rounded w-25 me-3');
@@ -222,15 +221,10 @@ export class Note{
         await this.page.route('*/**/api/notes',async route => {
             jsonCompleted  = new Array(0)
             let response = await route.fetch({headers: {
-            accept: 'application/json',
-            'x-auth-token': process.env.authToken!
+                accept: 'application/json',
+                'x-auth-token': process.env.authToken!
                 
-            }});
-            console.log(response.headers())
-            
-            console.log( response.status())
-            console.log( response.statusText())
-            console.log(await response.text())
+            }});           
             if (!response.ok())
                 response = await route.fetch({headers: {
             accept: 'application/json'

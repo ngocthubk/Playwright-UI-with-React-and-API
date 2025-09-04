@@ -12,8 +12,9 @@ test.describe('Delete a note successfully',()=> {
 
     })
         
-    test(`Delete a note with the confirmation`, async ({note,page}) => {
+    test(`Delete a note with the confirmation`, async ({note}) => {
         let title = notes[1]!.title + (test.info().workerIndex).toString()
+        await note.goToHome()
         await test.step('Click on the button Delete',async () => {
             
             await note.deleteNote(title,true);
@@ -38,6 +39,7 @@ test.describe('Delete a note unsuccessfully',()=> {
     })
     test(`Cancel deleting a note `, async ({note,page}) => {
         title = notes[1]!.title + (test.info().workerIndex).toString()
+        await note.goToHome()
         await test.step('Click on the button Delete',async () => {
             
             await note.deleteNote(title,false);
@@ -45,7 +47,7 @@ test.describe('Delete a note unsuccessfully',()=> {
 
         await test.step('Verify if the note exists',async () => {
 
-            await note.verifyNoteExist(title,notes[1]!.description,notes[1]!.category,notes[1]!.completed)
+            await note.verifyNoteExist(title,notes[1]!.description,notes[1]!.category,false)
         })
         
     })

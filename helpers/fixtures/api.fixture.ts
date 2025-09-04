@@ -3,7 +3,6 @@ import { LoginPage } from '../page-objects/login-page';
 import {Note} from '../../helpers/page-objects/note'
 import {fetchTestData,NoteType} from '../../helpers/data-factory/note'
 import { AddNote } from '../page-objects/add-note';
-// import notes from '../../test-data/note.json'
 import { getNotes,FullNote,createNote } from '../api/note';
 
 let notes = fetchTestData()

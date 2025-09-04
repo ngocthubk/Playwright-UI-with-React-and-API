@@ -1,7 +1,7 @@
 import { verify } from 'crypto'
 import {test,expect} from '../../helpers/fixtures/page.fixture'
 import {Note} from '../../helpers/page-objects/note'
-import {fetchTestData,TestData} from '../../helpers/data-factory/note'
+import {fetchTestData,NoteType} from '../../helpers/data-factory/note'
 import { teardown } from '../../helpers/common/teardown';
 
 test.describe('Interact with a note',()=> {
@@ -13,6 +13,7 @@ test.describe('Interact with a note',()=> {
        
     test('Complete a note ', async ({note}) => {
         title = notes[1]!.title + (test.info().workerIndex).toString()
+        await note.goToHome()
         await test.step('Complete a note',async () => {
             
             await note.completeNote(title);
