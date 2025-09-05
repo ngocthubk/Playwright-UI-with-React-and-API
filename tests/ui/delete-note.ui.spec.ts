@@ -4,7 +4,7 @@ import {Note} from '../../helpers/page-objects/note'
 import { teardown } from '../../helpers/common/teardown';
 import { fetchTestData } from '../../helpers/data-factory/note'
 
-
+// @Author: Thu Nguyen
 test.describe('Delete a note successfully',()=> { 
 
     let notes = fetchTestData()

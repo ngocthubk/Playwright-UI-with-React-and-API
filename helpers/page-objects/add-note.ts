@@ -1,6 +1,7 @@
 import { Page,expect,test } from '@playwright/test';
 import {Note} from './note'
 
+// @Author: Thu Nguyen
 export class AddNote{
 
     private readonly ctrCtg
@@ -9,6 +10,7 @@ export class AddNote{
     private readonly ctrDsc
     private readonly ctrCrt
     private readonly ctrCnc
+    private readonly ctrAddNote
     
 
      /** Constructor of class AddNote
@@ -22,6 +24,7 @@ export class AddNote{
         this.ctrDsc = this.page.getByTestId('note-description')
         this.ctrCrt = this.page.getByTestId('note-submit')
         this.ctrCnc = this.page.getByTestId('note-cancel')
+        this.ctrAddNote = this.page.getByText('Add new note')
 
      }
 
@@ -42,7 +45,7 @@ export class AddNote{
     }
 
     async checkAddNoteDisplay():Promise<boolean>{
-        const isVisible = await this.page.getByText('Add new note').isVisible();
+        const isVisible = await this.ctrAddNote.isVisible();
         return isVisible
     }
 

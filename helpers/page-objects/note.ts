@@ -2,6 +2,7 @@ import { Page,expect,test } from '@playwright/test';
 import {AddNote} from './add-note'
 import {fetchTestData,NoteType} from '../../helpers/data-factory/note'
 
+// @Author: Thu Nguyen
 export class Note{
 
     private readonly ctrAddNote;
@@ -85,7 +86,6 @@ export class Note{
             url = url.split('#')[0].split('app')[0]+'app'
             await this.page.goto(url)
         }
-
         await this.page.waitForURL(url)      
         
     }
@@ -106,9 +106,11 @@ export class Note{
       */
     async addNote(title: string, dsc: string, category: string, complete: boolean){
         let addNote = await new AddNote(this.page)
-        await this.openAddNote()
-        if (!await addNote.checkAddNoteDisplay())
+        do {
             await this.openAddNote()
+            console.log('Try again to open Add note')
+            console.log(await addNote.checkAddNoteDisplay())
+        }while(!await addNote.checkAddNoteDisplay())
         
         await addNote.inputNote(title, dsc, category, complete)
         await addNote.clickCreate()
@@ -126,20 +128,27 @@ export class Note{
      * @param title The title of the note
       */
     async deleteNote(title: string, confirm: boolean){
-            await this.page.locator(this.ctrNoteDlt.replace('#noteTitle#',title)).click();
-            if (confirm){
+            if (await this.page.locator(this.ctrNoteDlt.replace('#noteTitle#',title)).isVisible()){
+            do {
+                await this.page.locator(this.ctrNoteDlt.replace('#noteTitle#',title)).click();
+                console.log('Try again to delete the note')
+            }while(!await this.ctrCnfDelete.isVisible())
+            
+                if (confirm){
                 await test.step('Confirm the deletion',async () => {
 
-                    await this.ctrCnfDelete.click();
-                    console.log('deleted')
+                    await this.ctrCnfDelete.click();                    
                     await this.ctrCnfDelete.waitFor({ state: "detached" })
+                    await this.page.locator(this.ctrNoteDlt.replace('#noteTitle#',title)).first().waitFor({ state: "detached" })
+                    console.log('deleted')
                 })
             }else{
                 await test.step('Cancel the deletion',async () => {
 
                     await this.ctrCncDelete.click();
                 })
-            }        
+            }
+        }        
     }
 
     /** Verify if a note exists
@@ -235,8 +244,7 @@ export class Note{
             for (let item of json.data){
                 if (item.completed  == false){ 
                     jsonCompleted.push(item)
-                }
-          
+                }          
              }       
             
             body = {"success": true,

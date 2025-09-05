@@ -1,12 +1,13 @@
 import {test,expect} from '../../helpers/fixtures/api.fixture'
 import {Note} from '../../helpers/page-objects/note'
 import { AddNote } from '../../helpers/page-objects/add-note'
-import {fetchTestData,TestData} from '../../helpers/data-factory/note'
+import {fetchTestData,NoteType} from '../../helpers/data-factory/note'
 import { getNotes,FullNote,deleteNote, createNote, getNote } from '../../helpers/api/note';
 import { request } from 'http';
 import {extractNoteID} from '../../helpers/common/list'
 import { LoginPage } from '../../helpers/page-objects/login-page'
 
+// @Author: Thu Nguyen
 test.describe('Delete a note',()=> {
        let note
        let noteId
@@ -19,7 +20,7 @@ test.describe('Delete a note',()=> {
             let response
             let notes = await getNotes(noteRqs)
             noteId = extractNoteID(notes,noteTitle)
-            await test.step('Create a new note',async () => {
+            await test.step('Delete a note',async () => {
                 response = await deleteNote(noteRqs,noteId)
             }) 
             await test.step('Verify the response',async () => {

@@ -1,5 +1,6 @@
 import { Page } from '@playwright/test';
 
+// @Author: Thu Nguyen
 export class LoginPage{
 
     private readonly ctrLogin;
