@@ -50,7 +50,7 @@ export default defineConfig({
   projects: [
     {
       name: 'UI chrome',
-      testMatch: '**/*.spec.ts', 
+      testMatch: '**/ui/*.spec.ts', 
       use: { 
         ...devices['Desktop Chrome'],
         deviceScaleFactor: undefined,

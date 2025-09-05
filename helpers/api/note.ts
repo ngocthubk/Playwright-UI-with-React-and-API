@@ -39,6 +39,10 @@ export async function deleteNote(request: APIRequestContext, id:string):Promise<
         
     },    
     timeout: 60000})
+    if (await response.ok())
+        console.log('Deleted by API')
+    else
+        console.log(await response.text())
     // let json = await response.json()
     return  JSON.parse(await response.text())
 }

@@ -109,6 +109,7 @@ export class Note{
         do {
             await this.openAddNote()
             console.log('Try again to open Add note')
+            console.log(await addNote.checkAddNoteDisplay())
         }while(!await addNote.checkAddNoteDisplay())
         
         await addNote.inputNote(title, dsc, category, complete)
@@ -127,7 +128,7 @@ export class Note{
      * @param title The title of the note
       */
     async deleteNote(title: string, confirm: boolean){
-            
+            if (await this.page.locator(this.ctrNoteDlt.replace('#noteTitle#',title)).isVisible()){
             do {
                 await this.page.locator(this.ctrNoteDlt.replace('#noteTitle#',title)).click();
                 console.log('Try again to delete the note')
@@ -145,7 +146,8 @@ export class Note{
 
                     await this.ctrCncDelete.click();
                 })
-            }        
+            }
+        }        
     }
 
     /** Verify if a note exists

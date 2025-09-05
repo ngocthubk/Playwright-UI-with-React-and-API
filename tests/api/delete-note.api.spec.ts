@@ -19,7 +19,7 @@ test.describe('Delete a note',()=> {
             let response
             let notes = await getNotes(noteRqs)
             noteId = extractNoteID(notes,noteTitle)
-            await test.step('Create a new note',async () => {
+            await test.step('Delete a note',async () => {
                 response = await deleteNote(noteRqs,noteId)
             }) 
             await test.step('Verify the response',async () => {
