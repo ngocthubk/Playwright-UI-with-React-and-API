@@ -137,9 +137,10 @@ export class Note{
                 if (confirm){
                 await test.step('Confirm the deletion',async () => {
 
-                    await this.ctrCnfDelete.click();
-                    console.log('deleted')
+                    await this.ctrCnfDelete.click();                    
                     await this.ctrCnfDelete.waitFor({ state: "detached" })
+                    await this.page.locator(this.ctrNoteDlt.replace('#noteTitle#',title)).waitFor({ state: "detached" })
+                    console.log('deleted')
                 })
             }else{
                 await test.step('Cancel the deletion',async () => {
