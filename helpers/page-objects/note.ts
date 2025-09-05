@@ -2,6 +2,7 @@ import { Page,expect,test } from '@playwright/test';
 import {AddNote} from './add-note'
 import {fetchTestData,NoteType} from '../../helpers/data-factory/note'
 
+// @Author: Thu Nguyen
 export class Note{
 
     private readonly ctrAddNote;
@@ -85,7 +86,6 @@ export class Note{
             url = url.split('#')[0].split('app')[0]+'app'
             await this.page.goto(url)
         }
-
         await this.page.waitForURL(url)      
         
     }
@@ -139,7 +139,7 @@ export class Note{
 
                     await this.ctrCnfDelete.click();                    
                     await this.ctrCnfDelete.waitFor({ state: "detached" })
-                    await this.page.locator(this.ctrNoteDlt.replace('#noteTitle#',title)).waitFor({ state: "detached" })
+                    await this.page.locator(this.ctrNoteDlt.replace('#noteTitle#',title)).first().waitFor({ state: "detached" })
                     console.log('deleted')
                 })
             }else{

@@ -5,6 +5,7 @@ import {fetchTestData,NoteType} from '../../helpers/data-factory/note'
 import { getNotes,FullNote,deleteNote, createNote, getNote } from '../../helpers/api/note';
 import { request } from 'http';
 
+// @Author: Thu Nguyen
 test.describe('Create a note',()=> {
        let note
        let noteId

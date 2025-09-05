@@ -5,7 +5,7 @@ import { Note } from '../../helpers/page-objects/note';
 import { getNotes,FullNote,deleteNote, createNote, getNote } from '../../helpers/api/note';
 import { teardownAll } from '../../helpers/common/teardown';
 
-
+// @Author: Thu Nguyen
 /* Assume that the business is changed. But the real API are still not updated.
 Mock API is used instead to test the new feature.*/
 test.describe('Show notes',()=> {

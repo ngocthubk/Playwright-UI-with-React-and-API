@@ -2,6 +2,7 @@ import {  APIRequestContext } from "playwright"
 import { FullNote,deleteNote,getNotes } from '../api/note';
 import {Note} from '../../helpers/page-objects/note'
 
+// @Author: Thu Nguyen
 export async function teardownAll(request:APIRequestContext,page, noteTitles: string[]){
     let items: FullNote[] = await getNotes(request)      
     items?.forEach(async ( {id,title})=>{

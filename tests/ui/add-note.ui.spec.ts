@@ -4,6 +4,7 @@ import { AddNote } from '../../helpers/page-objects/add-note'
 import {fetchTestData,NoteType} from '../../helpers/data-factory/note'
 import { teardown } from '../../helpers/common/teardown';
 
+// @Author: Thu Nguyen
 test.describe('Create a note',()=> {
        let note
        let noteTitle

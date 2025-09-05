@@ -7,6 +7,7 @@ import { request } from 'http';
 import {extractNoteID} from '../../helpers/common/list'
 import { LoginPage } from '../../helpers/page-objects/login-page'
 
+// @Author: Thu Nguyen
 test.describe('Delete a note',()=> {
        let note
        let noteId

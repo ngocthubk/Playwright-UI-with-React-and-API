@@ -1,4 +1,5 @@
 import { FullNote } from '../api/note';
+// @Author: Thu Nguyen
 
 /** Extract a note ID from a list of notes 
  * @param notes: an array of notes, which is searched for a note ID

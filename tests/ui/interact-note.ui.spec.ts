@@ -4,6 +4,7 @@ import {Note} from '../../helpers/page-objects/note'
 import {fetchTestData,NoteType} from '../../helpers/data-factory/note'
 import { teardown } from '../../helpers/common/teardown';
 
+// @Author: Thu Nguyen
 test.describe('Interact with a note',()=> {
     let title
     let notes = fetchTestData()

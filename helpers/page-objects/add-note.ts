@@ -1,6 +1,7 @@
 import { Page,expect,test } from '@playwright/test';
 import {Note} from './note'
 
+// @Author: Thu Nguyen
 export class AddNote{
 
     private readonly ctrCtg
