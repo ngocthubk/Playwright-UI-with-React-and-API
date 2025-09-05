@@ -93,7 +93,7 @@ export class Note{
      * @param title The title of the note
     */
     async openAddNote(){
-
+        this.ctrAddNote.is
         await this.ctrAddNote.click();        
     }
 
@@ -106,10 +106,13 @@ export class Note{
       */
     async addNote(title: string, dsc: string, category: string, complete: boolean){
         let addNote = await new AddNote(this.page)
+        let count = 0
         do {
             await this.openAddNote()
-            console.log('Try again to open Add note')
-            console.log(await addNote.checkAddNoteDisplay())
+            if (count > 0)
+                console.log('Try again to open Add note')
+            count++
+            
         }while(!await addNote.checkAddNoteDisplay())
         
         await addNote.inputNote(title, dsc, category, complete)
@@ -129,23 +132,26 @@ export class Note{
       */
     async deleteNote(title: string, confirm: boolean){
             if (await this.page.locator(this.ctrNoteDlt.replace('#noteTitle#',title)).isVisible()){
-            do {
-                await this.page.locator(this.ctrNoteDlt.replace('#noteTitle#',title)).click();
-                console.log('Try again to delete the note')
-            }while(!await this.ctrCnfDelete.isVisible())
+                let count = 0
+                do {
+                    await this.page.locator(this.ctrNoteDlt.replace('#noteTitle#',title)).first().click();
+                    if (count > 0)
+                        console.log('Try again to delete the note')
+                    count++
+                }while(!await this.ctrCnfDelete.isVisible())
             
                 if (confirm){
-                await test.step('Confirm the deletion',async () => {
+                    await test.step('Confirm the deletion',async () => {
 
-                    await this.ctrCnfDelete.click();                    
-                    await this.ctrCnfDelete.waitFor({ state: "detached" })
-                    await this.page.locator(this.ctrNoteDlt.replace('#noteTitle#',title)).first().waitFor({ state: "detached" })
-                    console.log('deleted')
+                        await this.ctrCnfDelete.click();                    
+                        await this.ctrCnfDelete.waitFor({ state: "detached" })
+                        await this.page.locator(this.ctrNoteDlt.replace('#noteTitle#',title)).first().waitFor({ state: "detached" })
+                        console.log('deleted')
                 })
-            }else{
-                await test.step('Cancel the deletion',async () => {
+                }else{
+                    await test.step('Cancel the deletion',async () => {
 
-                    await this.ctrCncDelete.click();
+                        await this.ctrCncDelete.click();
                 })
             }
         }        
