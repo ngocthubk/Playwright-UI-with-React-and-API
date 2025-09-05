@@ -108,6 +108,7 @@ export class Note{
         let addNote = await new AddNote(this.page)
         do {
             await this.openAddNote()
+            console.log('Try again to open Add note')
         }while(!await addNote.checkAddNoteDisplay())
         
         await addNote.inputNote(title, dsc, category, complete)
@@ -129,7 +130,7 @@ export class Note{
             
             do {
                 await this.page.locator(this.ctrNoteDlt.replace('#noteTitle#',title)).click();
-                // console.log('Try again to delete the note')
+                console.log('Try again to delete the note')
             }while(!await this.ctrCnfDelete.isVisible())
             
                 if (confirm){
@@ -240,8 +241,7 @@ export class Note{
             for (let item of json.data){
                 if (item.completed  == false){ 
                     jsonCompleted.push(item)
-                }
-          
+                }          
              }       
             
             body = {"success": true,
