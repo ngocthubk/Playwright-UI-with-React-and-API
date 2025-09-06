@@ -52,6 +52,7 @@ export class AddNote{
     /* Click on the button Create */
     async clickCreate(){
         await this.ctrCrt.click()
+        await this.ctrCrt.waitFor({state: 'detached'})
     }
 
     /* Click on the button Cancel */
