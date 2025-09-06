@@ -93,7 +93,7 @@ export class Note{
      * @param title The title of the note
     */
     async openAddNote(){
-        this.ctrAddNote.is
+        
         await this.ctrAddNote.click();        
     }
 
