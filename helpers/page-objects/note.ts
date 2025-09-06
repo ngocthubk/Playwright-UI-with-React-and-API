@@ -117,7 +117,7 @@ export class Note{
         
         await addNote.inputNote(title, dsc, category, complete)
         await addNote.clickCreate()
-        await this.page.locator(this.ctrNote.replace('#noteTitle#',title).replace('#noteDsc#',dsc).replace('#noteCtg#',category))
+        
     }
     /** Complete a note
      * @param title The title of the note
@@ -131,12 +131,12 @@ export class Note{
      * @param title The title of the note
       */
     async deleteNote(title: string, confirm: boolean){
-            if (await this.page.locator(this.ctrNoteDlt.replace('#noteTitle#',title)).isVisible()){
-                let count = 0
-                do {
-                    await this.page.locator(this.ctrNoteDlt.replace('#noteTitle#',title)).first().click();
-                    if (count > 0)
-                        console.log('Try again to delete the note')
+        if (await this.page.locator(this.ctrNoteDlt.replace('#noteTitle#',title)).isVisible()){
+            let count = 0
+            do {
+                await this.page.locator(this.ctrNoteDlt.replace('#noteTitle#',title)).first().click();
+                if (count > 0)
+                    console.log('Try again to delete the note')
                     count++
                 }while(!await this.ctrCnfDelete.isVisible())
             
