@@ -10,7 +10,9 @@ This project aims to experiment with UI and API testing for React web applicatio
  Depending on the environment, the data can be read either from an API call or a local JSON file.
 ### How to view the test result in Github
 1. Go to the tab Actions,
+   
 2. Click on a workflow run you want to view,
+   
 3. Click on "test" to view the test results of this run.
 ### How to run the test locally:
 1. Clone the project to the local machine.
@@ -30,6 +32,7 @@ This project aims to experiment with UI and API testing for React web applicatio
 <p>
 Email: ngocthubk@gmail.com
 </p>
+
 
 
 
