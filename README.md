@@ -6,7 +6,7 @@ This project aims to experiment with UI and API testing for React web applicatio
  
  ### URL
  https://practice.expandtesting.com/notes
- ### Data
+ ### Test data
  Depending on the environment, the data can be read either from an API call or a local JSON file.
 ### How to view the test result in Github
 1. Go to the tab Actions,
@@ -30,5 +30,6 @@ This project aims to experiment with UI and API testing for React web applicatio
 <p>
 Email: ngocthubk@gmail.com
 </p>
+
 
 
