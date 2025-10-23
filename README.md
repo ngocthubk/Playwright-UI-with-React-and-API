@@ -19,7 +19,7 @@ This project aims to experiment with UI and API testing for React web applicatio
  
 	3.1 Replace the values #yourEmail# and #yourPassword#, #authToken# with your email, password and authenticate token on Notes App respectively.   
  3.2 (Optional) replace the values #stageORdev# with 'stage' or 'dev', when you want to run the tests with the corresponding test data as following:
-   - test: the tests will read data from a local JSON file
+   - dev: the tests will read data from a local JSON file
    - stage: the tests will read data from an API call
    <p> This is just an option for the extension in the future, in case if the application can be deployed in the different environments like stage or dev, so the tests should run with the corresponding test data.
    </p>
@@ -30,6 +30,7 @@ This project aims to experiment with UI and API testing for React web applicatio
 <p>
 Email: ngocthubk@gmail.com
 </p>
+
 
 
 
