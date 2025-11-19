@@ -1,0 +1,27 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '20.x'
+  displayName: 'Install Node.js'
+  env:
+    email: $(secrets.email)
+    password: $(secrets.password)
+    environment: $(vars.environment)
+    authToken: $(secrets.authToken)
+- script: |
+    npm ci
+    npx playwright install --with-deps
+    npx playwright test
+
+  displayName: 'npm install and build'
